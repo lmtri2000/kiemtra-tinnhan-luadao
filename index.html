@@ -4,26 +4,26 @@
 <style>body{margin:0}
 /* Layout: một cột làm việc; ô nhập tin ở trên, hai "chuyên gia" (luật, học máy) đặt cạnh nhau, kết luận nằm giữa như đèn tín hiệu. */
 :root{
-  --bg:#f3f5f8; --surface:#ffffff; --ink:#15212e; --muted:#5a6878; --line:#d9e0e8;
-  --accent:#1f5fa8; --accent-soft:#e3edf8;
+  --bg:#e4eefa; --surface:#ffffff; --ink:#141a3d; --muted:#4f5a7a; --line:#c6d5ec;
+  --accent:#1d2a7c; --accent-soft:#dde8f8; --green:#0a7a3a;
   --danger:#b3261e; --danger-soft:#fbe7e5; --warn:#a85c00; --warn-soft:#fdf0dc; --safe:#1d7a46; --safe-soft:#e1f3e8;
   --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0f151c; --surface:#18212b; --ink:#e6edf4; --muted:#9aa8b8; --line:#2b3846;
-  --accent:#7db3ec; --accent-soft:#1c2f45;
+  --bg:#0e1433; --surface:#171f45; --ink:#e8ecfa; --muted:#a3add0; --line:#2c3768;
+  --accent:#9fb3ff; --accent-soft:#222c5e; --green:#6fd39b;
   --danger:#ff8a80; --danger-soft:#3a1d1b; --warn:#f3b562; --warn-soft:#3a2b14; --safe:#6fd39b; --safe-soft:#15321f; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0f151c; --surface:#18212b; --ink:#e6edf4; --muted:#9aa8b8; --line:#2b3846;
-  --accent:#7db3ec; --accent-soft:#1c2f45;
+  --bg:#0e1433; --surface:#171f45; --ink:#e8ecfa; --muted:#a3add0; --line:#2c3768;
+  --accent:#9fb3ff; --accent-soft:#222c5e; --green:#6fd39b;
   --danger:#ff8a80; --danger-soft:#3a1d1b; --warn:#f3b562; --warn-soft:#3a2b14; --safe:#6fd39b; --safe-soft:#15321f; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+body{background:var(--bg) linear-gradient(180deg,color-mix(in srgb,var(--accent) 14%,var(--bg)) 0,var(--bg) 340px) no-repeat;color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
 .wrap{max-width:980px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
 header h1{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800;margin:0;letter-spacing:-.01em;text-wrap:balance}
 header p{margin:6px 0 0;color:var(--muted);max-width:68ch}
-.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
 label[for="tin"]{font-weight:700;display:block;margin-bottom:8px}
 textarea{width:100%;min-height:96px;font:inherit;font-size:1.05rem;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:12px;resize:vertical}
@@ -60,17 +60,26 @@ td.num{text-align:right;font-family:var(--f-mono)} th.num{text-align:right}
 .pos{color:var(--danger)} .neg{color:var(--safe)}
 .advice{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:.95rem}
 .scroll{overflow-x:auto}
-footer{color:var(--muted);font-size:.82rem;max-width:80ch}
+.note{color:var(--muted);font-size:.82rem;max-width:80ch;margin:0}
+.wrap>*{min-width:0} .brand>div{min-width:0} .eyebrow{overflow-wrap:anywhere}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .logo{width:72px;height:72px;flex:none;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--line)}
+.credits{border-top:1px solid var(--line);padding-top:18px;display:grid;gap:12px}
+.credits-title{font-weight:700;font-size:1rem;text-wrap:balance}
+.credits dl{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 24px}
+.credits dt{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.credits dd{margin:4px 0 0;font-size:.92rem}
+@media (max-width:480px){.brand .logo{width:56px;height:56px}}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style>
 
 <div class="wrap">
 <header>
-  <div class="eyebrow">Đề tài KHKT · Phần biểu diễn sản phẩm</div>
-  <h1>Máy soi tin nhắn lừa đảo</h1>
-  <p>Dán một tin nhắn vào ô dưới. Chương trình hỏi ý kiến hai "chuyên gia": <b>bộ luật</b> chấm điểm từ khóa nghi ngờ, và <b>mô hình học máy Naive Bayes</b> đã học từ 140 tin nhắn mẫu. Toàn bộ tính toán chạy ngay trên máy của bạn, tin nhắn không được gửi đi đâu.</p>
+  <div class="brand"><img class="logo" src="logo.png" alt="Logo Trường THPT Nguyễn Chí Thanh, Tây Ninh" height="72"><div>
+  <div class="eyebrow">Trường THPT Nguyễn Chí Thanh · Đề tài KHKT</div>
+  <h1>Máy soi tin nhắn lừa đảo</h1></div></div>
+  <p>Dán tin nhắn vào để hỏi ý kiến hai chuyên gia xem tin này có phải tin nhắn lừa đảo không.</p>
 </header>
-
 <section class="panel">
   <label for="tin">Tin nhắn cần kiểm tra</label>
   <textarea id="tin" spellcheck="false"></textarea>
@@ -109,9 +118,19 @@ footer{color:var(--muted);font-size:.82rem;max-width:80ch}
   <p class="sub" style="margin-top:10px" id="cv"></p>
 </section>
 
-<footer>
-  Hai "chuyên gia" cùng báo lừa đảo thì kết luận <b>NGUY HIỂM</b>; chỉ một bên báo thì <b>NGHI NGỜ</b>; không bên nào báo thì <b>AN TOÀN</b>.
-  Trang này dùng đúng tham số của mô hình huấn luyện bằng Python (scikit-learn, 140 tin, 2502 đặc trưng) và đã được đối chiếu: xác suất tính ở đây trùng với Python trên cả 150 tin thử. Bộ dữ liệu mẫu do nhóm tự soạn nên kết quả chỉ mang tính minh họa; chương trình có thể sai, hãy luôn cảnh giác.
+
+<p class="note">
+  Hai chuyên gia cùng báo lừa đảo thì kết luận <b>NGUY HIỂM</b>; chỉ một bên báo thì <b>NGHI NGỜ</b>; không bên nào báo thì <b>AN TOÀN</b>.
+  Chuyên gia 1 chấm điểm theo bảng từ khóa nghi ngờ do nhóm lập; chuyên gia 2 là máy tự học từ 140 tin mẫu và tính xác suất bằng công thức Bayes. Trang này tính giống hệt chương trình Python của nhóm (đã so trên 150 tin, kết quả trùng khớp). Bộ dữ liệu mẫu do nhóm tự soạn nên kết quả chỉ mang tính minh họa; chương trình có thể sai, hãy luôn cảnh giác.
+</p>
+
+<footer class="credits">
+  <div class="credits-title">Xây dựng hệ thống nhận diện và cảnh báo tin nhắn rác, tin nhắn lừa đảo bằng tiếng Việt sử dụng thuật toán Naive Bayes trên nền tảng Python</div>
+  <dl>
+    <div><dt>Học sinh thực hiện</dt><dd>Nguyễn Gia Bảo (12A2)<br>Phan Nguyễn Phúc Khang (12A2)</dd></div>
+    <div><dt>Giáo viên hướng dẫn</dt><dd>Nguyễn Thị Thu Hằng<br>Lâm Thị Ánh Tuyết</dd></div>
+    <div><dt>Đơn vị</dt><dd>Trường THPT Nguyễn Chí Thanh<br>Tây Ninh</dd></div>
+  </dl>
 </footer>
 </div>
 
