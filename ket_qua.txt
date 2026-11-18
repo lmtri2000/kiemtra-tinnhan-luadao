@@ -1,0 +1,73 @@
+========================================================================
+1. DỮ LIỆU
+Tổng số tin: 140 | lừa đảo: 70 | bình thường: 70
+Độ dài trung bình (số âm tiết): bình thường 14.2, lừa đảo 18.9
+Tỉ lệ tin có link lạ: lừa đảo 38.6%, bình thường 0.0%
+Tỉ lệ tin có số điện thoại: lừa đảo 10.0%, bình thường 0.0%
+========================================================================
+2. THÍ NGHIỆM CHÍNH: chia 70% học / 30% kiểm tra (random_state=42, stratify)
+Tập học: 98 tin, tập kiểm tra: 42 tin (21 lừa đảo)
+Ngưỡng bộ luật chọn trên tập học: 1
+Phương pháp            | Accur. | Precis.| Recall |   F1   |  FP  |  FN
+Bộ luật                |  90.5% |  90.5% |  90.5% |  90.5% |   2  |   2
+Naive Bayes            |  85.7% |  80.0% |  95.2% |  87.0% |   5  |   1
+Kết hợp HOẶC           |  85.7% |  77.8% | 100.0% |  87.5% |   6  |   0
+Kết hợp VÀ             |  90.5% |  94.7% |  85.7% |  90.0% |   1  |   3
+
+Các tin bị đoán sai trên tập kiểm tra:
+  [bình thường] [Luật báo nhầm] Phụ huynh lưu ý: nhà trường chỉ thu học phí qua cổng thanh toán chính thức của trường https://hocphi.truong-thpt.edu.vn
+  [bình thường] [NB báo nhầm] Đơn hàng của bạn đang được giao, shipper sẽ gọi cho bạn trong hôm nay
+  [bình thường] [NB báo nhầm] Nhà mạng thông báo: gói cước học sinh của bạn đã được gia hạn tự động, cước 70.000đ/tháng
+  [bình thường] [NB báo nhầm] Chuyến xe buýt số 10 sáng nay đến trễ 15 phút
+  [bình thường] [Luật báo nhầm, NB báo nhầm] Bạn đã đổi mật khẩu thành công. Nếu không phải bạn, hãy liên hệ tổng đài in trên mặt sau thẻ
+  [lừa đảo] [Luật bỏ lọt] Làm nhiệm vụ đơn giản kiếm 1-2 triệu mỗi ngày, không cần kinh nghiệm, nhận lương ngay
+  [bình thường] [NB báo nhầm] Hóa đơn tiền điện tháng 10 của gia đình là 450.000đ, vui lòng thanh toán tại quầy hoặc ứng dụng chính thức trước ngày 25
+  [lừa đảo] [Luật bỏ lọt] Xin chào, tôi là nhân viên ngân hàng, xin anh chị đọc lại dãy số 6 chữ số vừa gửi đến máy để xác nhận
+  [lừa đảo] [NB bỏ lọt] Tuyển học sinh sinh viên làm thêm online, lương 300k/giờ. Đóng 150k phí đồng phục và tài liệu
+
+NB với các ngưỡng xác suất khác nhau:
+Phương pháp            | Accur. | Precis.| Recall |   F1   |  FP  |  FN
+NB ngưỡng 0.3          |  64.3% |  58.3% | 100.0% |  73.7% |  15  |   0
+NB ngưỡng 0.4          |  83.3% |  75.0% | 100.0% |  85.7% |   7  |   0
+NB ngưỡng 0.5          |  85.7% |  80.0% |  95.2% |  87.0% |   5  |   1
+NB ngưỡng 0.6          |  85.7% |  85.7% |  85.7% |  85.7% |   3  |   3
+NB ngưỡng 0.7          |  76.2% |  92.3% |  57.1% |  70.6% |   1  |   9
+========================================================================
+3. KIỂM ĐỊNH CHÉO 5 LẦN (StratifiedKFold, shuffle, random_state=42)
+   Mỗi lần: ngưỡng luật chọn trên 4 phần học; NB học trên 4 phần; chấm trên phần còn lại.
+  Lần 1: ngưỡng luật = 1 | Acc luật 89.3%, NB 100.0%, HOẶC 92.9%
+  Lần 2: ngưỡng luật = 1 | Acc luật 85.7%, NB 82.1%, HOẶC 85.7%
+  Lần 3: ngưỡng luật = 1 | Acc luật 92.9%, NB 92.9%, HOẶC 92.9%
+  Lần 4: ngưỡng luật = 1 | Acc luật 96.4%, NB 89.3%, HOẶC 89.3%
+  Lần 5: ngưỡng luật = 1 | Acc luật 96.4%, NB 96.4%, HOẶC 96.4%
+Trung bình ± độ lệch chuẩn qua 5 lần:
+  Bộ luật       : Acc 92.1% ± 4.2% | Prec 93.1% | Recall 91.4% ± 5.3% | F1 92.1% | tổng báo nhầm 5/70, tổng bỏ lọt 6/70
+  Naive Bayes   : Acc 92.1% ± 6.1% | Prec 87.9% | Recall 98.6% ± 2.9% | F1 92.8% | tổng báo nhầm 10/70, tổng bỏ lọt 1/70
+  Kết hợp HOẶC  : Acc 91.4% ± 3.6% | Prec 85.7% | Recall 100.0% ± 0.0% | F1 92.2% | tổng báo nhầm 12/70, tổng bỏ lọt 0/70
+========================================================================
+4. THÍ NGHIỆM 'KẺ GIAN VIẾT KHÔNG DẤU' (bỏ dấu 42 tin kiểm tra, mô hình giữ nguyên)
+Phương pháp            | Accur. | Precis.| Recall |   F1   |  FP  |  FN
+Bộ luật (không dấu)    |  73.8% | 100.0% |  47.6% |  64.5% |   0  |  11
+NB (không dấu)         |  83.3% |  93.8% |  71.4% |  81.1% |   1  |   6
+HOẶC (không dấu)       |  83.3% |  93.8% |  71.4% |  81.1% |   1  |   6
+NB học không dấu       |  85.7% |  80.0% |  95.2% |  87.0% |   5  |   1
+NB học không dấu, KT có dấu |  85.7% |  80.0% |  95.2% |  87.0% |   5  |   1
+========================================================================
+5. MÔ HÌNH CUỐI (học trên cả 140 tin) VÀ CÁC CỤM TỪ MÁY COI LÀ 'ĐÁNG NGỜ' NHẤT
+Số đặc trưng (âm tiết + cặp âm tiết): 2502
+Nghiêng về LỪA ĐẢO : http (+1.23), triệu (+1.10), khoản (+1.10), tại http (+0.99), nhận (+0.98), tài khoản (+0.96), ngay (+0.91), bị (+0.87), cần (+0.85), phí (+0.84), chuyển (+0.83), số (+0.76)
+Nghiêng về BÌNH THƯỜNG: nhớ (-0.97), nhé (-0.93), trường (-0.88), bài (-0.85), con (-0.84), đi (-0.81), rồi (-0.80), lớp (-0.79), chiều (-0.78), mẹ (-0.71), nay (-0.70), lúc (-0.70)
+
+Thử chương trình với các tin demo (không có trong dữ liệu học):
+  [NGUY HIỂM] NB 90% | luật 11 điểm | Chúc mừng bạn trúng thưởng 50 triệu, bấm http://nhanqua.xyz và gửi mã OTP để nhận giải
+  [AN TOÀN  ] NB 15% | luật 0 điểm | Thứ 7 này lớp mình đi dã ngoại nhé, nhớ mang nón
+  [NGUY HIỂM] NB 79% | luật 2 điểm | Con đang cấp cứu ở bệnh viện, mẹ chuyển khoản gấp 10 triệu vào số tài khoản này
+  [NGUY HIỂM] NB 90% | luật 7 điểm | Tài khoản ngân hàng của quý khách bị khóa, truy cập www.vietcom-bank.top để xác minh
+  [NGUY HIỂM] NB 73% | luật 5 điểm | Tuyển cộng tác viên việc nhẹ lương cao, làm tại nhà, nhận 500k mỗi ngày
+  [AN TOÀN  ] NB 15% | luật 0 điểm | Mẹ ơi tối nay con về muộn, mẹ đừng chờ cơm nhé
+  [AN TOÀN  ] NB 16% | luật 0 điểm | Lịch thi học kỳ I đã đăng trên trang thpt.edu.vn, các em xem kỹ
+  [NGUY HIỂM] NB 51% | luật 2 điểm | Chuc mung ban trung thuong, gui ma OTP de nhan qua
+  [NGHI NGỜ ] NB 41% | luật 2 điểm | Nhà trường thông báo học phí học kỳ 2 nộp tại phòng kế toán trước ngày 15
+  [NGHI NGỜ ] NB 83% | luật 0 điểm | Ngân hàng thông báo số dư tài khoản của quý khách vừa tăng 2.000.000đ
+
+Đã lưu hình vào thư mục anh/
